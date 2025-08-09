@@ -1,0 +1,40 @@
+# ========================
+# Frontend (React)
+# ========================
+/front/node_modules
+/front/.pnp
+/front/.pnp.js
+/front/coverage
+/front/build
+
+# Frontend misc
+/front/.DS_Store
+/front/.env.local
+/front/.env.development.local
+/front/.env.test.local
+/front/.env.production.local
+/front/npm-debug.log*
+/front/yarn-debug.log*
+/front/yarn-error.log*
+
+# ========================
+# Backend (Django)
+# ========================
+/env/              # backend virtual environment
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# Backend env files
+/backend/.env
+*.log
+
+# ========================
+# OS / Editor junk
+# ========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
