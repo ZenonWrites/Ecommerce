@@ -28,7 +28,7 @@ media/
 staticfiles/
 
 # Backend env files
-/backend/.env
+/backend/core/.env
 *.log
 
 # ========================
