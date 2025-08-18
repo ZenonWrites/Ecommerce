@@ -378,14 +378,14 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-black bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-black bg-clip-text">
                 Trécents
               </h1>
-              <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
+              <Badge variant="outline" className="ml-3 border-black text-black">
                 Premium Quality
               </Badge>
             </div>
