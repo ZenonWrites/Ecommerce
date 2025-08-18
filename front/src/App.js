@@ -382,9 +382,12 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-black tracking-tight">
-                Trécents
-              </h1>
+              <img 
+                src="/trecentsblackfontnobg.png" 
+                alt="Logo" 
+                className="h-8 w-auto" 
+                style={{ height: '32px' }}
+              />
               <Badge variant="outline" className="ml-3 border-black text-black">
                 Premium Quality
               </Badge>
@@ -395,7 +398,8 @@ function App() {
                 variant="outline"
                 size="sm"
                 onClick={() => setCartOpen(!cartOpen)}
-                className="relative border-black hover:bg-gray-50"
+                className="relative border-black hover:bg-blue-100"
+              >
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 <span className="font-medium">Cart</span>
@@ -517,7 +521,7 @@ function App() {
         <div className="flex bg-black flex-col h-full">
           <div className="flex bg-black justify-between items-center p-6 border-b">
             <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
-            <Button variant="ghost" size="sm" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0">
+            <Button variant="ghost" size="sm" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 bg-white">
               <X className="w-4 h-4" />
             </Button>
           </div>
@@ -622,7 +626,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xl font-bold mb-4">Trécents</h4>
+              <h4 className="text-xl font-bold mb-4">Tree</h4>
               <p className="text-gray-400">
                 Your trusted partner for premium products with
                 personalized service.
@@ -651,7 +655,7 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2025 Trécents. All rights reserved.</p>
+            <p>&copy; 2025 Tréc. All rights reserved.</p>
           </div>
         </div>
       </footer>
