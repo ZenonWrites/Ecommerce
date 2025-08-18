@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'main',
     'corsheaders',
     'rest_framework',
+    'jazzmin',
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,115 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WHATSAPP_NUMBER = config('WHATSAPP_NUMBER', default='+919867339964')
+
+JAZZMIN_SETTINGS = {
+    # General UI/UX
+    "site_title": "Admin Dashboard",
+    "site_header": "Admin",
+    "site_brand": "Ecommerce Admin",
+    "site_logo": None,
+    "login_logo": None,
+    "login_logo_dark": None,
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "welcome_sign": "Welcome to Ecommerce Admin",
+    "copyright": "Ecommerce",
+    "search_model": ["auth.User", "main.Product"],
+
+    # Theme settings
+    "theme": "cyborg",  # Black theme base
+    "dark_mode_theme": "cyborg",
+    "show_ui_builder": True,  # Enable UI builder for customization
+
+    # Top menu
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Site", "url": "/", "new_window": True},
+        {"app": "main"},
+    ],
+
+    # Sidebar
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+
+    # Icons
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "main.Category": "fas fa-tags",
+        "main.Product": "fas fa-box",
+        "main.Order": "fas fa-shopping-cart",
+    },
+
+    # UI Customization
+    "custom_css": None,
+    "custom_js": None,
+    "show_ui_builder": True,
+
+    # Custom colors
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    
+    # Custom theme colors
+    "custom_theme": {
+        "primary": "#9c27b0",  # Purple
+        "secondary": "#4e73df",
+        "accent": "#f39c12",
+        "primary_bg": "#1a1a1a",  # Dark background
+        "secondary_bg": "#2a2a2a",
+        "accent_bg": "#9c27b0",  # Purple accent
+        "primary_text": "#ffffff",
+        "secondary_text": "#e9ecef",
+    },
+    
+    # Menu animations
+    "related_modal_active": True,
+    "custom_links": {
+        "main": [{
+            'name': 'Make Messages',
+            'url': 'make_messages',
+            'icon': 'fas fa-comments',
+            'permissions': ['books.view_book']
+        }]
+    },
+    
+    # Custom CSS for additional styling
+    "custom_css": "css/admin_custom.css",
+}
+
+# Add custom CSS for the admin
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": True,
+    "sidebar_nav_flat_style": False,
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": False
+}
