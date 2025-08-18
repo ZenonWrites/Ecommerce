@@ -18,10 +18,10 @@ const Button = ({ children, className = '', variant = 'default', size = 'default
   const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
 
   const variants = {
-    default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
-    destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+    default: 'bg-black text-white hover:bg-gray-900',
+    outline: 'border border-black bg-white text-black hover:bg-gray-100',
+    ghost: 'hover:bg-gray-100 text-black',
+    destructive: 'bg-black text-white hover:bg-gray-900'
   };
 
   const sizes = {
@@ -43,7 +43,7 @@ const Button = ({ children, className = '', variant = 'default', size = 'default
 };
 
 const Card = ({ children, className = '', ...props }) => (
-  <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`} {...props}>
+  <div className={`rounded-lg border border-gray-200 bg-white text-black shadow-sm ${className}`} {...props}>
     {children}
   </div>
 );
@@ -56,10 +56,10 @@ const CardContent = ({ children, className = '', ...props }) => (
 
 const Badge = ({ children, className = '', variant = 'default', ...props }) => {
   const variants = {
-    default: 'bg-primary text-primary-foreground',
-    secondary: 'bg-secondary text-secondary-foreground',
-    destructive: 'bg-destructive text-destructive-foreground',
-    outline: 'text-foreground border border-input'
+    default: 'bg-black text-white',
+    secondary: 'bg-gray-200 text-black',
+    destructive: 'bg-black text-white',
+    outline: 'text-black border border-black'
   };
 
   return (
@@ -369,23 +369,23 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-black"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                StartUp
+              <h1 className="text-2xl font-bold text-black tracking-tight">
+                Trécents
               </h1>
-              <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
+              <Badge variant="outline" className="ml-3 border-black text-black">
                 Premium Quality
               </Badge>
             </div>
@@ -395,14 +395,14 @@ function App() {
                 variant="outline"
                 size="sm"
                 onClick={() => setCartOpen(!cartOpen)}
-                className="relative hover:bg-blue-50 transition-colors border-blue-200"
+                className="relative border-black hover:bg-gray-50"
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                Cart
+                <span className="font-medium">Cart</span>
                 {cart.item_count > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-blue-600 text-white text-xs">
+                  <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
                     {cart.item_count}
-                  </Badge>
+                  </span>
                 )}
               </Button>
             </div>
@@ -413,9 +413,9 @@ function App() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 text-center">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
             Premium Tech Products
-            <span className="block text-blue-600 mt-2">Delivered with Care</span>
+            <span className="block text-black mt-2">Delivered with Care</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
             Discover our curated collection of cutting-edge technology products.
@@ -423,7 +423,7 @@ function App() {
           </p>
           <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
             <div className="flex items-center">
-              <Star className="w-4 h-4 text-yellow-400 mr-1 fill-current" />
+              <Star className="w-4 h-4 text-black mr-1 fill-current" />
               <span>4.9 Rating</span>
             </div>
             <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
@@ -437,19 +437,19 @@ function App() {
       {/* Products Grid */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          <h3 className="text-3xl font-bold text-center text-black mb-12">
             Featured Products
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {!isInitialized ? (
               <div className="col-span-full text-center py-12">
-                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
                 <p className="mt-4 text-gray-600">Loading products...</p>
               </div>
             ) : products && products.length > 0 ? (
               products.map((product) => (
-                <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden">
+                <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white border border-gray-200 shadow-sm overflow-hidden">
                   <div className="relative overflow-hidden">
                     <img
                       src={product.image_url}
@@ -461,24 +461,24 @@ function App() {
                         size="sm"
                         variant="ghost"
                         onClick={() => toggleFavorite(product.id)}
-                        className="bg-white/80 backdrop-blur-sm hover:bg-white/90 rounded-full p-2 h-8 w-8"
+                        className="bg-white hover:bg-gray-100 rounded-full p-2 h-8 w-8"
                       >
                         <Heart
                           className={`w-4 h-4 ${
                             favorites.has(product.id) 
-                              ? 'fill-red-500 text-red-500' 
+                              ? 'fill-black text-black' 
                               : 'text-gray-600'
                           }`}
                         />
                       </Button>
                     </div>
-                    <Badge className="absolute top-4 left-4 bg-blue-600 text-white">
+                    <Badge className="absolute top-4 left-4">
                       {product.category}
                     </Badge>
                   </div>
 
                   <CardContent className="p-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h4 className="text-xl font-semibold text-black mb-2">
                       {product.name}
                     </h4>
                     <p className="text-gray-600 mb-4 line-clamp-2">
@@ -486,12 +486,12 @@ function App() {
                     </p>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-blue-600">
+                      <span className="text-2xl font-bold text-black">
                         ${product.price}
                       </span>
                       <Button
                         onClick={() => addToCart(product)}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl text-white"
+                        className="transition-all duration-300"
                       >
                         <Plus className="w-4 h-4 mr-2" />
                         Add to Cart
@@ -503,7 +503,7 @@ function App() {
             ) : (
               <div className="col-span-full text-center py-12">
                 <p className="text-gray-600">No products available at the moment.</p>
-                {error && <p className="text-red-500 mt-2">{error}</p>}
+                {error && <p className="text-black mt-2">{error}</p>}
               </div>
             )}
           </div>
@@ -514,9 +514,9 @@ function App() {
       <div className={`fixed inset-y-0 right-0 z-50 w-96 bg-white shadow-2xl transform transition-transform duration-300 ${
         cartOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
-        <div className="flex flex-col h-full">
-          <div className="flex justify-between items-center p-6 border-b">
-            <h3 className="text-xl font-semibold">Shopping Cart</h3>
+        <div className="flex bg-black flex-col h-full">
+          <div className="flex bg-black justify-between items-center p-6 border-b">
+            <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
             <Button variant="ghost" size="sm" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0">
               <X className="w-4 h-4" />
             </Button>
@@ -589,25 +589,10 @@ function App() {
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 {checkingOut ? (
-                  isLoading ? (
-                    <div className="flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p className="mt-2 text-sm">Processing...</p>
-                      </div>
-                    </div>
-                  ) : error ? (
-                    <div className="flex items-center justify-center">
-                      <div className="text-center">
-                        <p className="text-red-500">Error: {error}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center">
-                      <Phone className="w-4 h-4 mr-2" />
-                      Complete Order via WhatsApp
-                    </div>
-                  )
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Processing...
+                  </div>
                 ) : (
                   <div className="flex items-center">
                     <Phone className="w-4 h-4 mr-2" />
@@ -633,20 +618,20 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-black text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xl font-bold mb-4">StartUp</h4>
+              <h4 className="text-xl font-bold mb-4">Trécents</h4>
               <p className="text-gray-400">
-                Your trusted partner for premium technology products with
-                personalized service via WhatsApp.
+                Your trusted partner for premium products with
+                personalized service.
               </p>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Quick Links</h5>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 text-gray-300">
                 <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
                 <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
                 <li className="hover:text-white cursor-pointer transition-colors">Shipping Info</li>
@@ -656,17 +641,17 @@ function App() {
 
             <div>
               <h5 className="font-semibold mb-4">Contact</h5>
-              <p className="text-gray-400 mb-2">
+              <p className="text-gray-300 mb-2">
                 WhatsApp: {whatsappNumber}
               </p>
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 Available 24/7 for customer support
               </p>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 StartUp. All rights reserved.</p>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-300">
+            <p>&copy; 2025 Trécents. All rights reserved.</p>
           </div>
         </div>
       </footer>
