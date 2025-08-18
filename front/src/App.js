@@ -626,7 +626,12 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xl font-bold mb-4">Tree</h4>
+              <img 
+                src="/trecentswhitefontnobg.png" 
+                alt="Logo" 
+                className="h-8 w-auto mb-4" 
+                style={{ height: '32px' }}
+              />
               <p className="text-gray-400">
                 Your trusted partner for premium products with
                 personalized service.
@@ -655,7 +660,7 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2025 Tréc. All rights reserved.</p>
+            <p>&copy; 2025 Trécents. All rights reserved.</p>
           </div>
         </div>
       </footer>
