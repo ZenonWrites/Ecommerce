@@ -383,7 +383,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                StartUp
+                Trécents
               </h1>
               <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
                 Premium Quality
@@ -413,9 +413,9 @@ function App() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 text-center">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
             Premium Tech Products
-            <span className="block text-blue-600 mt-2">Delivered with Care</span>
+            <span className="block text-black mt-2">Delivered with Care</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
             Discover our curated collection of cutting-edge technology products.
@@ -423,7 +423,7 @@ function App() {
           </p>
           <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
             <div className="flex items-center">
-              <Star className="w-4 h-4 text-yellow-400 mr-1 fill-current" />
+              <Star className="w-4 h-4 text-black mr-1 fill-current" />
               <span>4.9 Rating</span>
             </div>
             <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
@@ -437,14 +437,14 @@ function App() {
       {/* Products Grid */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          <h3 className="text-3xl font-bold text-center text-black mb-12">
             Featured Products
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {!isInitialized ? (
               <div className="col-span-full text-center py-12">
-                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
                 <p className="mt-4 text-gray-600">Loading products...</p>
               </div>
             ) : products && products.length > 0 ? (
@@ -637,16 +637,16 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xl font-bold mb-4">StartUp</h4>
+              <h4 className="text-xl font-bold mb-4">Trécents</h4>
               <p className="text-gray-400">
-                Your trusted partner for premium technology products with
+                Your trusted partner for premium products with
                 personalized service via WhatsApp.
               </p>
             </div>
 
             <div>
               <h5 className="font-semibold mb-4">Quick Links</h5>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 text-gray-300">
                 <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
                 <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
                 <li className="hover:text-white cursor-pointer transition-colors">Shipping Info</li>
@@ -656,17 +656,17 @@ function App() {
 
             <div>
               <h5 className="font-semibold mb-4">Contact</h5>
-              <p className="text-gray-400 mb-2">
+              <p className="text-gray-300 mb-2">
                 WhatsApp: {whatsappNumber}
               </p>
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 Available 24/7 for customer support
               </p>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 StartUp. All rights reserved.</p>
+            <p>&copy; 2025 Trécents. All rights reserved.</p>
           </div>
         </div>
       </footer>
