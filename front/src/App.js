@@ -521,8 +521,8 @@ function App() {
         <div className="flex bg-black flex-col h-full">
           <div className="flex bg-black justify-between items-center p-6 border-b">
             <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
-            <Button variant="ghost" size="sm" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 bg-white">
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="md" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 hover:bg-transparent">
+              <X className="w-12 h-12 text-white text-xl" />
             </Button>
           </div>
 
