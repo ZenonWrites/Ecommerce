@@ -388,9 +388,6 @@ function App() {
                 className="h-8 w-auto" 
                 style={{ height: '32px' }}
               />
-              <Badge variant="outline" className="ml-3 border-black text-black">
-                Premium Quality
-              </Badge>
             </div>
 
             <div className="flex items-center space-x-4">
