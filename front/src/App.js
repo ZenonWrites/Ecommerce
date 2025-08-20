@@ -399,7 +399,7 @@ function App() {
               >
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                <span className="font-medium"Cart</span>
+                <span className="font-medium">Cart</span>
                 {cart.item_count > 0 && (
                   <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
                     {cart.item_count}
