@@ -92,7 +92,7 @@ function App() {
       ).join('\n');
       
       const total = formatPrice(cart.total);
-      const message = `New Order!\n\nItems:\n${orderDetails}\n\nTotal: ${total}\n\nPlease confirm this order.`;
+      const message = `Hello,I'd like to buy the following items\n\nItems:\n${orderDetails}\n\nTotal: ${total}\n\nKindly proceed to the payment and shipping section.`;
       
       // Encode the message for URL
       const encodedMessage = encodeURIComponent(message);
