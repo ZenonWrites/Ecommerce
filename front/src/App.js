@@ -453,7 +453,7 @@ function App() {
                 <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white border border-gray-200 shadow-sm overflow-hidden">
                   <div className="relative overflow-hidden">
                     <img
-                      src={product.image_url}
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
@@ -534,7 +534,7 @@ function App() {
                 {cart.items.map((item) => (
                   <div key={item.product_id} className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
                     <img
-                      src={item.image_url}
+                      src={item.image}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded-lg"
                     />
