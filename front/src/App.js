@@ -397,7 +397,6 @@ function App() {
                 onClick={() => setCartOpen(!cartOpen)}
                 className="relative border-black hover:bg-blue-100"
               >
-              >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 <span className="font-medium">Cart</span>
                 {cart.item_count > 0 && (
