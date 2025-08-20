@@ -176,7 +176,7 @@ function App() {
         
         setProducts(Array.isArray(productsResponse) ? productsResponse : []);
         setCategories(Array.isArray(categoriesResponse) ? categoriesResponse : []);
-        setWhatsappNumber(whatsappResponse?.number || '');
+        setWhatsappNumber(whatsappResponse?.whatsapp_number || '');
         setIsInitialized(true);
         
         // Load cart from localStorage with validation
