@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { ShoppingCart, Plus, Minus, Trash2, Phone, Star, Heart, X } from 'lucide-react';
 import { productApi, categoryApi, orderApi, whatsappApi } from './services/api';
+import ProductDetail from './components/ProductDetail';
+import ProductCard from './components/ProductCard';
 
 // Default product image in case none is provided from the backend
 const DEFAULT_PRODUCT_IMAGE = 'https://via.placeholder.com/400x300?text=No+Image+Available';
@@ -375,214 +378,190 @@ function App() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img 
-                src="/trecentsblackfontnobg.png" 
-                alt="Logo" 
-                className="h-8 w-auto" 
-                style={{ height: '32px' }}
-              />
-            </div>
+  const renderProductListing = () => (
+    <div className="container mx-auto px-4 py-8">
+      <h3 className="text-3xl font-bold text-center text-black mb-12">
+        Featured Products
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={addToCart}
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+          />
+        ))}
+      </div>
+    </div>
+  );
 
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCartOpen(!cartOpen)}
-                className="relative border-black hover:bg-blue-100"
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                <span className="font-medium">Cart</span>
-                {cart.item_count > 0 && (
-                  <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
-                    {cart.item_count}
-                  </span>
-                )}
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Routes>
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/shipping" element={<ShippingInfo />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/" element={
+            <>
+        {/* Header */}
+        <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <img
+                  src="/trecentsblackfontnobg.png"
+                  alt="Logo"
+                  className="h-8 w-auto"
+                  style={{ height: '32px' }}
+                />
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCartOpen(!cartOpen)}
+                  className="relative border-black hover:bg-blue-100"
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  <span className="font-medium">Cart</span>
+                  {cart.item_count > 0 && (
+                    <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
+                      {cart.item_count}
+                    </span>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Hero Section */}
+        <section className="relative py-20 px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
+              Premium Tech Products
+              <span className="block text-black mt-2">Delivered with Care</span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              Discover our curated collection of cutting-edge technology products.
+              From laptops to smart home devices, we've got everything you need.
+            </p>
+            <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
+              <div className="flex items-center">
+                <Star className="w-4 h-4 text-black mr-1 fill-current" />
+                <span>4.9 Rating</span>
+              </div>
+              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <span>Free Worldwide Shipping</span>
+              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <span>24/7 Support</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <main className="flex-1">
+          <div className="container mx-auto px-4 py-8">
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  !isInitialized ? (
+                    <div className="flex items-center justify-center min-h-[60vh]">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+                    </div>
+                  ) : error ? (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                      {error}
+                    </div>
+                  ) : (
+                    renderProductListing()
+                  )
+                } 
+              />
+              <Route 
+                path="/product/:id" 
+                element={
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <ProductDetail 
+                      addToCart={addToCart} 
+                      favorites={favorites} 
+                      toggleFavorite={toggleFavorite} 
+                    />
+                  </div>
+                } 
+              />
+            </Routes>
+          </div>
+        </main>
+
+        {/* Cart Sidebar */}
+        <div className={`fixed inset-y-0 right-0 z-50 w-96 bg-white shadow-2xl transform transition-transform duration-300 ${
+          cartOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}>
+          <div className="flex bg-black flex-col h-full">
+            <div className="flex bg-black justify-between items-center p-6 border-b">
+              <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
+              <Button variant="ghost" size="md" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 hover:bg-transparent">
+                <X className="w-12 h-12 text-white text-xl" />
               </Button>
             </div>
-          </div>
-        </div>
-      </header>
 
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
-            Premium Tech Products
-            <span className="block text-black mt-2">Delivered with Care</span>
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Discover our curated collection of cutting-edge technology products.
-            From laptops to smart home devices, we've got everything you need.
-          </p>
-          <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
-            <div className="flex items-center">
-              <Star className="w-4 h-4 text-black mr-1 fill-current" />
-              <span>4.9 Rating</span>
-            </div>
-            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-            <span>Free Worldwide Shipping</span>
-            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-            <span>24/7 Support</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Products Grid */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-bold text-center text-black mb-12">
-            Featured Products
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {!isInitialized ? (
-              <div className="col-span-full text-center py-12">
-                <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading products...</p>
-              </div>
-            ) : products && products.length > 0 ? (
-              products.map((product) => (
-                <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white border border-gray-200 shadow-sm overflow-hidden">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => toggleFavorite(product.id)}
-                        className="bg-white hover:bg-gray-100 rounded-full p-2 h-8 w-8"
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${
-                            favorites.has(product.id) 
-                              ? 'fill-black text-black' 
-                              : 'text-gray-600'
-                          }`}
-                        />
-                      </Button>
-                    </div>
-                    <Badge className="absolute top-4 left-4">
-                      {product.category}
-                    </Badge>
-                  </div>
-
-                  <CardContent className="p-6">
-                    <h4 className="text-xl font-semibold text-black mb-2">
-                      {product.name}
-                    </h4>
-                    <p className="text-gray-600 mb-4 line-clamp-2">
-                      {product.description}
-                    </p>
-
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-black">
-                        ${product.price}
-                      </span>
-                      <Button
-                        onClick={() => addToCart(product)}
-                        className="transition-all duration-300"
-                      >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-600">No products available at the moment.</p>
-                {error && <p className="text-black mt-2">{error}</p>}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Cart Sidebar */}
-      <div className={`fixed inset-y-0 right-0 z-50 w-96 bg-white shadow-2xl transform transition-transform duration-300 ${
-        cartOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
-        <div className="flex bg-black flex-col h-full">
-          <div className="flex bg-black justify-between items-center p-6 border-b">
-            <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
-            <Button variant="ghost" size="md" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 hover:bg-transparent">
-              <X className="w-12 h-12 text-white text-xl" />
-            </Button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-6">
-            {cart.items.length === 0 ? (
-              <div className="text-center py-12">
-                <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">Your cart is empty</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {cart.items.map((item) => (
-                  <div key={item.product_id} className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-sm">{item.name}</h4>
-                      <p className="text-blue-600 font-bold">${item.price}</p>
-                      <div className="flex items-center space-x-2 mt-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                          className="h-6 w-6 p-0"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </Button>
-                        <span className="text-sm font-medium px-2">{item.quantity}</span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
-                          className="h-6 w-6 p-0"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </Button>
+            <div className="flex-1 overflow-y-auto p-6">
+              {cart.items.length === 0 ? (
+                <div className="text-center py-12">
+                  <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500">Your cart is empty</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cart.items.map((item) => (
+                    <div key={item.product_id} className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sm">{item.name}</h4>
+                        <p className="text-blue-600 font-bold">${item.price}</p>
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </Button>
+                          <span className="text-sm font-medium px-2">{item.quantity}</span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </Button>
+                        </div>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFromCart(item.product_id)}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFromCart(item.product_id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {cart.items.length > 0 && (
-            <div className="border-t p-6">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-semibold">Total:</span>
-                <span className="text-2xl font-bold text-blue-600">
-                  ${cart.total?.toFixed(2)}
-                </span>
-              </div>
-
+                  ))}
+                </div>
+              )}
               <Button
                 onClick={proceedToWhatsApp}
                 disabled={checkingOut}
@@ -605,9 +584,9 @@ function App() {
                 You'll be redirected to WhatsApp to complete your order
               </p>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )
 
       {/* Cart Overlay */}
       {cartOpen && (
@@ -637,10 +616,26 @@ function App() {
             <div>
               <h5 className="font-semibold mb-4">Quick Links</h5>
               <ul className="space-y-2 text-gray-300">
-                <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Shipping Info</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Returns</li>
+                <li>
+                  <Link to="/about" className="hover:text-white transition-colors block">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="hover:text-white transition-colors block">
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/shipping" className="hover:text-white transition-colors block">
+                    Shipping Info
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/returns" className="hover:text-white transition-colors block">
+                    Returns
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -689,7 +684,11 @@ function App() {
           }
         }
       `}</style>
-    </div>
+      </div>
+      </>
+      } />
+    </Routes>
+    </Router>
   );
 }
 
