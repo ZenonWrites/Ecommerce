@@ -399,25 +399,20 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
-        <Routes>
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/shipping" element={<ShippingInfo />} />
-          <Route path="/returns" element={<Returns />} />
-          <Route path="/" element={
-            <>
+      <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center">
-                <img
-                  src="/trecentsblackfontnobg.png"
-                  alt="Logo"
-                  className="h-8 w-auto"
-                  style={{ height: '32px' }}
-                />
+                <Link to="/">
+                  <img
+                    src="/trecentsblackfontnobg.png"
+                    alt="Logo"
+                    className="h-8 w-auto cursor-pointer"
+                    style={{ height: '32px' }}
+                  />
+                </Link>
               </div>
 
               <div className="flex items-center space-x-4">
@@ -452,52 +447,42 @@ function App() {
               From laptops to smart home devices, we've got everything you need.
             </p>
             <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
-              <div className="flex items-center">
-                <Star className="w-4 h-4 text-black mr-1 fill-current" />
-                <span>4.9 Rating</span>
-              </div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-              <span>Free Worldwide Shipping</span>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-              <span>24/7 Support</span>
             </div>
           </div>
         </section>
 
         {/* Main Content */}
         <main className="flex-1">
-          <div className="container mx-auto px-4 py-8">
-            <Routes>
-              <Route 
-                path="/" 
-                element={
-                  !isInitialized ? (
-                    <div className="flex items-center justify-center min-h-[60vh]">
-                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
-                    </div>
-                  ) : error ? (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                !isInitialized ? (
+                  <div className="flex items-center justify-center min-h-[60vh]">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+                  </div>
+                ) : error ? (
+                  <div className="container mx-auto px-4 py-8">
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                       {error}
                     </div>
-                  ) : (
-                    renderProductListing()
-                  )
-                } 
-              />
-              <Route 
-                path="/product/:id" 
-                element={
-                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <ProductDetail 
-                      addToCart={addToCart} 
-                      favorites={favorites} 
-                      toggleFavorite={toggleFavorite} 
-                    />
                   </div>
-                } 
-              />
-            </Routes>
-          </div>
+                ) : (
+                  renderProductListing()
+                )
+              }
+            />
+            <Route
+              path="/product/:id"
+              element={
+                <ProductDetail
+                  addToCart={addToCart}
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                />
+              }
+            />
+          </Routes>
         </main>
 
         {/* Cart Sidebar */}
@@ -586,7 +571,7 @@ function App() {
             </div>
           </div>
         </div>
-      )
+      )}
 
       {/* Cart Overlay */}
       {cartOpen && (
@@ -601,10 +586,10 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <img 
-                src="/trecentswhitefontnobg.png" 
-                alt="Logo" 
-                className="h-8 w-auto mb-4" 
+              <img
+                src="/trecentswhitefontnobg.png"
+                alt="Logo"
+                className="h-8 w-auto mb-4"
                 style={{ height: '32px' }}
               />
               <p className="text-gray-400">
@@ -616,37 +601,17 @@ function App() {
             <div>
               <h5 className="font-semibold mb-4">Quick Links</h5>
               <ul className="space-y-2 text-gray-300">
-                <li>
-                  <Link to="/about" className="hover:text-white transition-colors block">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" className="hover:text-white transition-colors block">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/shipping" className="hover:text-white transition-colors block">
-                    Shipping Info
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/returns" className="hover:text-white transition-colors block">
-                    Returns
-                  </Link>
-                </li>
+                <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
+                <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
               </ul>
             </div>
 
             <div>
-              <h5 className="font-semibold mb-4">Contact</h5>
-              <p className="text-gray-300 mb-2">
-                WhatsApp: {whatsappNumber}
-              </p>
-              <p className="text-gray-300">
-                Available 24/7 for customer support
-              </p>
+              <h5 className="font-semibold mb-4">Shipping and Return Policy</h5>
+              <ul className="space-y-2 text-gray-300">
+              <li className="hover:text-white cursor-pointer transition-colors">Shipping Info</li>
+              <li className="hover:text-white cursor-pointer transition-colors">Returns</li>
+              </ul>
             </div>
           </div>
 
@@ -684,10 +649,7 @@ function App() {
           }
         }
       `}</style>
-      </div>
-      </>
-      } />
-    </Routes>
+    </div>
     </Router>
   );
 }
