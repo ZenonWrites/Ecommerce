@@ -29,5 +29,6 @@ tzdata==2025.2
 uvicorn==0.35.0
 watchfiles==1.1.0
 websockets==15.0.1
-jazzmin
+django-jazzmin
 whitenoise==6.9.0
+
