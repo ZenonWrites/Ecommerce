@@ -486,7 +486,7 @@ function App() {
         </main>
 
         {/* Cart Sidebar */}
-        <div className={`fixed inset-y-0 right-0 z-50 w-[28.8rem] bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
+        <div className={`fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
           cartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
           <div className="flex bg-black justify-between items-center p-6 border-b">
