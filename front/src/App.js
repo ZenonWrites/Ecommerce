@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { ShoppingCart, Plus, Minus, Trash2, Phone, Star, Heart, X } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, Phone, Star, Heart, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { productApi, categoryApi, orderApi, whatsappApi } from './services/api';
 import ProductDetail from './components/ProductDetail';
 import ProductCard from './components/ProductCard';
+import { HeroCarousel } from './components/HeroCarousel';
+import { ImageWithFallback } from './components/figma/ImageWithFallback';
 
 // Default product image in case none is provided from the backend
 const DEFAULT_PRODUCT_IMAGE = 'https://via.placeholder.com/400x300?text=No+Image+Available';
@@ -372,9 +374,11 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-black"></div>
-      </div>
+      <Router>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-black"></div>
+        </div>
+      </Router>
     );
   }
 
@@ -436,20 +440,7 @@ function App() {
         </header>
 
         {/* Hero Section */}
-        <section className="relative py-20 px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-bold text-black mb-6 leading-tight">
-              Premium Tech Products
-              <span className="block text-black mt-2">Delivered with Care</span>
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Discover our curated collection of cutting-edge technology products.
-              From laptops to smart home devices, we've got everything you need.
-            </p>
-            <div className="flex justify-center items-center space-x-4 text-sm text-gray-500">
-            </div>
-          </div>
-        </section>
+        <HeroCarousel />
 
         {/* Main Content */}
         <main className="flex-1">

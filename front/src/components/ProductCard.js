@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, Plus } from 'lucide-react';
+import { ShoppingCart, Plus, Heart } from 'lucide-react';
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', { 
       style: 'currency', 
@@ -51,11 +51,27 @@ const ProductCard = ({ product, onAddToCart }) => {
           <span className="text-lg font-bold text-gray-900">
             {formatPrice(product.price)}
           </span>
+          <div className="flex space-x-2">
+            {toggleFavorite && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(product.id);
+                }}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <Heart 
+                  size={18} 
+                  className={favorites?.has?.(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}
+                />
+              </button>
+            )}
+          </div>
         </div>
         
         <button
           onClick={(e) => {
-            e.stopPropagation(); // Prevent card click handler from firing
+            e.stopPropagation();
             onAddToCart({
               id: product.id,
               name: product.name,
