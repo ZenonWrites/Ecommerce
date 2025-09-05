@@ -11,7 +11,6 @@ const heroSlides = [
     title: "Discover Luxury Fragrances",
     subtitle:
       "Indulge in our exquisite collection of premium perfumes from world-renowned brands",
-    cta: "Shop Now",
   },
   {
     id: 2,
