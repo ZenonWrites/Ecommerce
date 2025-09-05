@@ -486,7 +486,7 @@ function App() {
         </main>
 
         {/* Cart Sidebar */}
-        <div className={`fixed inset-y-0 right-0 z-50 w-[36rem] bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
+        <div className={`fixed inset-y-0 right-0 z-50 w-[28.8rem] bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
           cartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
           <div className="flex bg-black justify-between items-center p-6 border-b">
@@ -500,133 +500,90 @@ function App() {
               <form action="/cart" id="CartDrawer-Form" className="cart__contents cart-drawer__form" method="post">
                 <div id="CartDrawer-CartItems" className="drawer__contents js-contents">
                   <div className="drawer__cart-items-wrapper">
-                    <table className="cart-items w-full" role="table">
-                      <thead role="rowgroup">
-                        <tr role="row">
-                          <th id="CartDrawer-ColumnProduct" className="caption-with-letter-spacing text-left" scope="col" role="columnheader">
-                            Product
-                          </th>
-                          <th id="CartDrawer-ColumnTotal" className="right caption-with-letter-spacing text-right" scope="col" role="columnheader">
-                            Total
-                          </th>
-                          <th id="CartDrawer-ColumnQuantity" role="columnheader">
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody role="rowgroup">
-                        {cart.items.length === 0 ? (
-                          <tr>
-                            <td colSpan="4" className="text-center py-12">
-                              <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                              <p className="text-gray-500">Your cart is empty</p>
-                            </td>
-                          </tr>
-                        ) : (
-                          cart.items.map((item, index) => (
-                            <tr key={item.product_id} id={`CartDrawer-Item-${index + 1}`} className="cart-item" role="row">
-                              <td className="cart-item__media" role="cell" headers="CartDrawer-ColumnProductImage">
-                                <a href={`/products/${item.product_id}`} className="cart-item__link" tabIndex="-1" aria-hidden="true"> </a>
-                                <img
-                                  className="cart-item__image"
-                                  src={item.image}
-                                  alt=""
-                                  loading="lazy"
-                                  width="150"
-                                  height="150"
-                                />
-                              </td>
-
-                              <td className="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
-                                <a href={`/products/${item.product_id}`} className="cart-item__name h4 break block font-medium">
-                                  {item.name}
+                    <div className="cart-items w-full">
+                      {cart.items.length === 0 ? (
+                        <div className="text-center py-12">
+                          <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                          <p className="text-gray-500">Your cart is empty</p>
+                        </div>
+                      ) : (
+                        <div className="divide-y divide-gray-200">
+                          {cart.items.map((item, index) => (
+                            <div key={item.product_id} className="cart-item flex items-start p-4 gap-4">
+                              {/* Product Image */}
+                              <div className="flex-shrink-0">
+                                <a href={`/products/${item.product_id}`} tabIndex="-1" aria-hidden="true">
+                                  <img
+                                    className="w-20 h-20 object-cover rounded"
+                                    src={item.image_url}
+                                    alt={item.name}
+                                    loading="lazy"
+                                    onError={(e) => {
+                                      e.target.src = 'https://via.placeholder.com/400x300?text=No+Image+Available';
+                                    }}
+                                  />
                                 </a>
-                                <div className="product-option">
-                                  Rs. {item.price.toFixed(2)}
-                                </div>
-                                {item.size && (
-                                  <dl>
-                                    <div className="product-option">
-                                      <dt>Size:</dt>
-                                      <dd>{item.size}</dd>
-                                    </div>
-                                  </dl>
-                                )}
-                                <p className="product-option"></p>
-                                <ul className="discounts list-unstyled" role="list" aria-label="Discount"></ul>
-                              </td>
+                              </div>
 
-                              <td className="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
-                                <div className="loading__spinner hidden">
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="spinner" viewBox="0 0 66 66">
-                                    <circle strokeWidth="6" cx="33" cy="33" r="30" fill="none" className="path"></circle>
-                                  </svg>
-                                </div>
-                              </td>
-
-                              <td className="cart-item__quantity" role="cell" headers="CartDrawer-ColumnQuantity">
-                                <div className="cart-item__quantity-wrapper quantity-popover-wrapper">
-                                  <div className="quantity-popover-container">
-                                    <div className="quantity cart-quantity flex items-center">
-                                      <button
-                                        className="quantity__button flex items-center justify-center w-8 h-8 border border-gray-300 rounded-l-md"
-                                        name="minus"
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          updateQuantity(item.product_id, item.quantity - 1);
-                                        }}
-                                        disabled={item.quantity <= 1}
-                                      >
-                                        <Minus className="w-3 h-3" />
-                                      </button>
-                                      <input
-                                        className="quantity__input w-12 h-8 text-center border-t border-b border-gray-300"
-                                        type="number"
-                                        name="updates[]"
-                                        value={item.quantity}
-                                        min="1"
-                                        step="1"
-                                        aria-label={`Quantity for ${item.name}`}
-                                        onChange={(e) => {
-                                          const newQuantity = parseInt(e.target.value, 10) || 1;
-                                          updateQuantity(item.product_id, newQuantity);
-                                        }}
-                                      />
-                                      <button
-                                        className="quantity__button flex items-center justify-center w-8 h-8 border border-gray-300 rounded-r-md"
-                                        name="plus"
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          updateQuantity(item.product_id, item.quantity + 1);
-                                        }}
-                                      >
-
-                                        <Plus className="w-3 h-3" />
-                                      </button>
-                                    </div>
+                              {/* Product Details and Price */}
+                              <div className="flex-1 flex flex-col">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <h3 className="font-bold text-gray-900">
+                                      <a href={`/products/${item.product_id}`} className="hover:underline">
+                                        {item.name}
+                                      </a>
+                                    </h3>
+                                    <p className="text-sm text-gray-500">Size: {item.size || 'One Size'}</p>
                                   </div>
+                                  <div className="text-right">
+                                    <span className="font-bold text-gray-900">
+                                      Rs. {(item.price * item.quantity).toFixed(2)}
+                                    </span>
+                                    <p className="text-xs text-gray-500">
+                                      Rs. {item.price.toFixed(2)} each
+                                    </p>
+                                  </div>
+                                </div>
+                                
+                                <div className="mt-2 flex items-center justify-between">
+                                  <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                    <button
+                                      type="button"
+                                      onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
+                                      className="px-2 py-1 hover:bg-gray-100 focus:outline-none"
+                                      aria-label="Decrease quantity"
+                                    >
+                                      <Minus className="w-3 h-3 text-gray-600" />
+                                    </button>
+                                    <span className="px-2 py-1 text-sm w-8 text-center">
+                                      {item.quantity}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
+                                      className="px-2 py-1 hover:bg-gray-100 focus:outline-none"
+                                      aria-label="Increase quantity"
+                                    >
+                                      <Plus className="w-3 h-3 text-gray-600" />
+                                    </button>
+                                  </div>
+                                  
                                   <button
                                     type="button"
-                                    className="button button--tertiary cart-remove-button text-red-500 hover:text-red-700 ml-2"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      removeFromCart(item.product_id);
-                                    }}
-                                    aria-label={`Remove ${item.name}`}
+                                    onClick={() => removeFromCart(item.product_id)}
+                                    className="text-gray-500 hover:text-red-600 focus:outline-none"
+                                    aria-label="Remove item"
                                   >
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash2 className="w-5 h-5" />
                                   </button>
                                 </div>
-                                <div id={`CartDrawer-LineItemError-${index + 1}`} className="cart-item__error" role="alert">
-                                  <small className="cart-item__error-text"></small>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <p id="CartDrawer-LiveRegionText" className="visually-hidden" role="status"></p>
                 </div>
