@@ -672,7 +672,7 @@ function App() {
                 style={{ height: '32px' }}
               />
               <p className="text-gray-400">
-                Your trusted partner for premium products with
+                Your trusted partner for premium products
               </p>
             </div>
             <ul>
