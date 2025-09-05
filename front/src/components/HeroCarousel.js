@@ -7,7 +7,7 @@ const heroSlides = [
   {
     id: 1,
     image:
-      "https://images.unsplash.com/photo-1719175936556-dbd05e415913?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZXJmdW1lJTIwYm90dGxlfGVufDF8fHx8MTc1NjgwNjM0NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://i.pinimg.com/736x/2f/f4/14/2ff414d9aa92abc1f518e83988bf9258.jpg",
     title: "Discover Luxury Fragrances",
     subtitle:
       "Indulge in our exquisite collection of premium perfumes from world-renowned brands",

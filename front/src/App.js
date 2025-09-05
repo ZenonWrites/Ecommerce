@@ -487,7 +487,12 @@ function App() {
             </Button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-6 cart-scroll-container" style={{
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none'
+          }}>
               <form action="/cart" id="CartDrawer-Form" className="cart__contents cart-drawer__form" method="post">
                 <div id="CartDrawer-CartItems" className="drawer__contents js-contents">
                   <div className="drawer__cart-items-wrapper">
@@ -610,14 +615,43 @@ function App() {
                         </div>
                       )}
                     </Button>
-                    <p className="text-xs text-gray-500 text-center mt-2">
-                      You'll be redirected to WhatsApp to complete your order
-                    </p>
-                  </div>
-                </div>
-              )}
             </div>
-          </div>
+          </div>)} {/* Close cart-scroll-container */}
+          {cart.items.length > 0 && (
+            <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
+              <div className="totals text-right mb-2">
+                <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
+                <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
+              </div>
+              
+              <small className="text-xs text-gray-500 block mb-4">
+                Taxes included. Discounts and shipping calculated at checkout.
+              </small>
+
+              <div className="cart__ctas">
+                <Button
+                  onClick={proceedToWhatsApp}
+                  disabled={checkingOut}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  {checkingOut ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Processing...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center">
+                      <Phone className="w-4 h-4 mr-2" />
+                      Check out
+                    </div>
+                  )}
+                </Button>
+                <p className="text-xs text-gray-500 text-center mt-2">
+                  You'll be redirected to WhatsApp to complete your order </p>p
+                </div>
+              </div>)}
+          )
+        </div>
       {/* Cart Overlay */}
       {cartOpen && (
         <div
@@ -680,6 +714,7 @@ function App() {
           }
         }
       `}</style>
+      </div>
     </Router>
   );
 }
