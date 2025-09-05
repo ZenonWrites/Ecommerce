@@ -588,26 +588,9 @@ function App() {
               </div>
               {cart.items.length > 0 && (
                 <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
-                  <div className="totals text-right mb-2">
-                    <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
-                    <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
-                  </div>
-                  
                   <small className="text-xs text-gray-500 block mb-4">
                     Taxes included. Discounts and shipping calculated at checkout.
                   </small>
-          </div>)} {/* Close cart-scroll-container */}
-          {cart.items.length > 0 && (
-            <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
-              <div className="totals text-right mb-2">
-                <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
-                <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
-              </div>
-              
-              <small className="text-xs text-gray-500 block mb-4">
-                Taxes included. Discounts and shipping calculated at checkout.
-              </small>
-
               <div className="cart__ctas">
                 <Button
                   onClick={proceedToWhatsApp}
