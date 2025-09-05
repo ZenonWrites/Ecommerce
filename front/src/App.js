@@ -399,7 +399,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-white">
         {/* Header */}
         <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -486,93 +486,190 @@ function App() {
         </main>
 
         {/* Cart Sidebar */}
-        <div className={`fixed inset-y-0 right-0 z-50 w-96 bg-white shadow-2xl transform transition-transform duration-300 ${
+        <div className={`fixed inset-y-0 right-0 z-50 w-[36rem] bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
           cartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
-          <div className="flex bg-black flex-col h-full">
-            <div className="flex bg-black justify-between items-center p-6 border-b">
-              <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
-              <Button variant="ghost" size="md" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 hover:bg-transparent">
-                <X className="w-12 h-12 text-white text-xl" />
-              </Button>
-            </div>
+          <div className="flex bg-black justify-between items-center p-6 border-b">
+            <h3 className="text-xl text-white font-semibold">Shopping Cart</h3>
+            <Button variant="ghost" size="md" onClick={() => setCartOpen(false)} className="h-8 w-8 p-0 hover:bg-transparent">
+              <X className="w-12 h-12 text-white text-xl" />
+            </Button>
+          </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
-              {cart.items.length === 0 ? (
-                <div className="text-center py-12">
-                  <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">Your cart is empty</p>
+          <div className="flex-1 overflow-y-auto p-6">
+              <form action="/cart" id="CartDrawer-Form" className="cart__contents cart-drawer__form" method="post">
+                <div id="CartDrawer-CartItems" className="drawer__contents js-contents">
+                  <div className="drawer__cart-items-wrapper">
+                    <table className="cart-items w-full" role="table">
+                      <thead role="rowgroup">
+                        <tr role="row">
+                          <th id="CartDrawer-ColumnProduct" className="caption-with-letter-spacing text-left" scope="col" role="columnheader">
+                            Product
+                          </th>
+                          <th id="CartDrawer-ColumnTotal" className="right caption-with-letter-spacing text-right" scope="col" role="columnheader">
+                            Total
+                          </th>
+                          <th id="CartDrawer-ColumnQuantity" role="columnheader">
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody role="rowgroup">
+                        {cart.items.length === 0 ? (
+                          <tr>
+                            <td colSpan="4" className="text-center py-12">
+                              <ShoppingCart className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                              <p className="text-gray-500">Your cart is empty</p>
+                            </td>
+                          </tr>
+                        ) : (
+                          cart.items.map((item, index) => (
+                            <tr key={item.product_id} id={`CartDrawer-Item-${index + 1}`} className="cart-item" role="row">
+                              <td className="cart-item__media" role="cell" headers="CartDrawer-ColumnProductImage">
+                                <a href={`/products/${item.product_id}`} className="cart-item__link" tabIndex="-1" aria-hidden="true"> </a>
+                                <img
+                                  className="cart-item__image"
+                                  src={item.image}
+                                  alt=""
+                                  loading="lazy"
+                                  width="150"
+                                  height="150"
+                                />
+                              </td>
+
+                              <td className="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
+                                <a href={`/products/${item.product_id}`} className="cart-item__name h4 break block font-medium">
+                                  {item.name}
+                                </a>
+                                <div className="product-option">
+                                  Rs. {item.price.toFixed(2)}
+                                </div>
+                                {item.size && (
+                                  <dl>
+                                    <div className="product-option">
+                                      <dt>Size:</dt>
+                                      <dd>{item.size}</dd>
+                                    </div>
+                                  </dl>
+                                )}
+                                <p className="product-option"></p>
+                                <ul className="discounts list-unstyled" role="list" aria-label="Discount"></ul>
+                              </td>
+
+                              <td className="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
+                                <div className="loading__spinner hidden">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="spinner" viewBox="0 0 66 66">
+                                    <circle strokeWidth="6" cx="33" cy="33" r="30" fill="none" className="path"></circle>
+                                  </svg>
+                                </div>
+                              </td>
+
+                              <td className="cart-item__quantity" role="cell" headers="CartDrawer-ColumnQuantity">
+                                <div className="cart-item__quantity-wrapper quantity-popover-wrapper">
+                                  <div className="quantity-popover-container">
+                                    <div className="quantity cart-quantity flex items-center">
+                                      <button
+                                        className="quantity__button flex items-center justify-center w-8 h-8 border border-gray-300 rounded-l-md"
+                                        name="minus"
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          updateQuantity(item.product_id, item.quantity - 1);
+                                        }}
+                                        disabled={item.quantity <= 1}
+                                      >
+                                        <Minus className="w-3 h-3" />
+                                      </button>
+                                      <input
+                                        className="quantity__input w-12 h-8 text-center border-t border-b border-gray-300"
+                                        type="number"
+                                        name="updates[]"
+                                        value={item.quantity}
+                                        min="1"
+                                        step="1"
+                                        aria-label={`Quantity for ${item.name}`}
+                                        onChange={(e) => {
+                                          const newQuantity = parseInt(e.target.value, 10) || 1;
+                                          updateQuantity(item.product_id, newQuantity);
+                                        }}
+                                      />
+                                      <button
+                                        className="quantity__button flex items-center justify-center w-8 h-8 border border-gray-300 rounded-r-md"
+                                        name="plus"
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          updateQuantity(item.product_id, item.quantity + 1);
+                                        }}
+                                      >
+
+                                        <Plus className="w-3 h-3" />
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="button button--tertiary cart-remove-button text-red-500 hover:text-red-700 ml-2"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      removeFromCart(item.product_id);
+                                    }}
+                                    aria-label={`Remove ${item.name}`}
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                                <div id={`CartDrawer-LineItemError-${index + 1}`} className="cart-item__error" role="alert">
+                                  <small className="cart-item__error-text"></small>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p id="CartDrawer-LiveRegionText" className="visually-hidden" role="status"></p>
                 </div>
-              ) : (
-                <div className="space-y-4">
-                  {cart.items.map((item) => (
-                    <div key={item.product_id} className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-sm">{item.name}</h4>
-                        <p className="text-blue-600 font-bold">${item.price}</p>
-                        <div className="flex items-center space-x-2 mt-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                            className="h-6 w-6 p-0"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </Button>
-                          <span className="text-sm font-medium px-2">{item.quantity}</span>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
-                            className="h-6 w-6 p-0"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </Button>
+                <div id="CartDrawer-CartErrors" role="alert"></div>
+              </form>
+              </div>
+              {cart.items.length > 0 && (
+                <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
+                  <div className="totals text-right mb-2">
+                    <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
+                    <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
+                  </div>
+                  
+                  <small className="text-xs text-gray-500 block mb-4">
+                    Taxes included. Discounts and shipping calculated at checkout.
+                  </small>
+
+                  <div className="cart__ctas">
+                    <Button
+                      onClick={proceedToWhatsApp}
+                      disabled={checkingOut}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      {checkingOut ? (
+                        <div className="flex items-center justify-center">
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                          Processing...
                         </div>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeFromCart(item.product_id)}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
+                      ) : (
+                        <div className="flex items-center justify-center">
+                          <Phone className="w-4 h-4 mr-2" />
+                          Check out
+                        </div>
+                      )}
+                    </Button>
+                    <p className="text-xs text-gray-500 text-center mt-2">
+                      You'll be redirected to WhatsApp to complete your order
+                    </p>
+                  </div>
                 </div>
               )}
-              <Button
-                onClick={proceedToWhatsApp}
-                disabled={checkingOut}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                {checkingOut ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Processing...
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Complete Order via WhatsApp
-                  </div>
-                )}
-              </Button>
-
-              <p className="text-xs text-gray-500 text-center mt-2">
-                You'll be redirected to WhatsApp to complete your order
-              </p>
             </div>
           </div>
-        </div>
-      )}
-
       {/* Cart Overlay */}
       {cartOpen && (
         <div
@@ -594,27 +691,13 @@ function App() {
               />
               <p className="text-gray-400">
                 Your trusted partner for premium products with
-                personalized service.
               </p>
             </div>
-
-            <div>
-              <h5 className="font-semibold mb-4">Quick Links</h5>
-              <ul className="space-y-2 text-gray-300">
-                <li className="hover:text-white cursor-pointer transition-colors">About Us</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="font-semibold mb-4">Shipping and Return Policy</h5>
-              <ul className="space-y-2 text-gray-300">
+            <ul>
               <li className="hover:text-white cursor-pointer transition-colors">Shipping Info</li>
               <li className="hover:text-white cursor-pointer transition-colors">Returns</li>
-              </ul>
-            </div>
+            </ul>
           </div>
-
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-300">
             <p>&copy; 2025 Trècénts. All rights reserved.</p>
           </div>
@@ -649,7 +732,6 @@ function App() {
           }
         }
       `}</style>
-    </div>
     </Router>
   );
 }
