@@ -610,10 +610,9 @@ function App() {
                   )}
                 </Button>
                 <p className="text-xs text-gray-500 text-center mt-2">
-                  You'll be redirected to WhatsApp to complete your order </p>p
+                  You'll be redirected to WhatsApp to complete your order </p>
                 </div>
               </div>)}
-          )
         </div>
       {/* Cart Overlay */}
       {cartOpen && (
