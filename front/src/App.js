@@ -486,7 +486,7 @@ function App() {
         </main>
 
         {/* Cart Sidebar */}
-        <div className={`fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
+        <div className={`fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] bg-white shadow-2xl transform transition-transform duration-300 flex flex-col ${
           cartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
           <div className="flex bg-black justify-between items-center p-6 border-b">
@@ -509,7 +509,7 @@ function App() {
                       ) : (
                         <div className="divide-y divide-gray-200">
                           {cart.items.map((item, index) => (
-                            <div key={item.product_id} className="cart-item flex items-start p-4 gap-4">
+                            <div key={item.product_id} className="cart-item flex items-start pl-0 pr-4 py-4 gap-8">
                               {/* Product Image */}
                               <div className="flex-shrink-0">
                                 <a href={`/products/${item.product_id}`} tabIndex="-1" aria-hidden="true">
@@ -536,7 +536,7 @@ function App() {
                                     </h3>
                                     <p className="text-sm text-gray-500">Size: {item.size || 'One Size'}</p>
                                   </div>
-                                  <div className="text-right">
+                                  <div className="text-right space-y-1">
                                     <span className="font-bold text-gray-900">
                                       Rs. {(item.price * item.quantity).toFixed(2)}
                                     </span>
