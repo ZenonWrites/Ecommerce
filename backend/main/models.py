@@ -23,6 +23,8 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
     discount = models.FloatField(default=0.82, help_text='Discount multiplier (e.g., 0.82 for 18% off)')
     created_at = models.DateTimeField(auto_now_add=True)
+    size = models.CharField(max_length=100, blank=True, null=True)
+    flavour = models.CharField(max_length=100, blank=True, null=True)
     
     class Meta:
         ordering = ['name']  # Default ordering by name

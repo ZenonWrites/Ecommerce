@@ -3,8 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart, Heart, ArrowLeft, Star, Phone, X, Plus, Minus, Trash2, Truck, ShieldCheck, RefreshCw } from 'lucide-react';
 import { productApi, whatsappApi } from './services/api';
 
+// Use a more reliable placeholder image URL
+const DEFAULT_PRODUCT_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCIgZmlsbD0iI2VlZSI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNlZWUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzk5OSI+Tm8gSW1hZ2UgQXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
 
-const DEFAULT_PRODUCT_IMAGE = 'https://via.placeholder.com/400x300?text=No+Image+Available';
 // UI Components
 const Button = ({ children, className = '', variant = 'default', size = 'default', onClick, disabled, ...props }) => {
   const baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
@@ -41,6 +42,7 @@ const formatPrice = (price) => {
     currency: 'INR',
   }).format(price);
 };
+
 const ProductPage = ({ favorites, toggleFavorite }) => {
   // Initialize cart state
   const [cart, setCart] = useState({ items: [], total: 0, item_count: 0 });
@@ -51,6 +53,14 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Add state for the currently selected image
+  const [selectedImage, setSelectedImage] = useState(0);
+
+  // Helper function to handle image error
+  const handleImageError = (e) => {
+    e.target.src = DEFAULT_PRODUCT_IMAGE;
+  };
 
   const updateCartTotal = (items) => {
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -67,43 +77,43 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
   };
 
   const addToCart = (product) => {
-  try {
-    const existingItem = cart.items.find(item => item.product_id === product.id);
-    let newItems;
+    try {
+      const existingItem = cart.items.find(item => item.product_id === product.id);
+      let newItems;
 
-    if (existingItem) {
-      newItems = cart.items.map(item =>
-        item.product_id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    } else {
-      newItems = [...cart.items, {
-        product_id: product.id,
-        name: product.name,
-        price: parseFloat(product.price), // Ensure price is a number
-        quantity: 1,
-        image_url: product.image || DEFAULT_PRODUCT_IMAGE
-      }];
+      if (existingItem) {
+        newItems = cart.items.map(item =>
+          item.product_id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        newItems = [...cart.items, {
+          product_id: product.id,
+          name: product.name,
+          price: parseFloat(product.price), // Ensure price is a number
+          quantity: 1,
+          image_url: product.image || DEFAULT_PRODUCT_IMAGE
+        }];
+      }
+
+      const { total, item_count } = updateCartTotal(newItems);
+      const newCart = {
+        items: newItems,
+        total,
+        item_count
+      };
+
+      setCart(newCart);
+      saveCartToStorage(newCart);
+      setCartOpen(true);
+
+      return true;
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      return false;
     }
-
-    const { total, item_count } = updateCartTotal(newItems);
-    const newCart = {
-      items: newItems,
-      total,
-      item_count
-    };
-
-    setCart(newCart);
-    saveCartToStorage(newCart);
-    setCartOpen(true);
-
-    return true;
-  } catch (error) {
-    console.error('Error adding to cart:', error);
-    return false;
-  }
-};
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -123,6 +133,12 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
       fetchProduct();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setSelectedImage(0);
+    }
+  }, [product]);
 
   const handleAddToCart = () => {
     addToCart({
@@ -218,8 +234,6 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
     );
   }
 
-
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
@@ -260,28 +274,44 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 p-8">
             {/* Left Column - Product Images */}
             <div className="space-y-4">
-              <div className="relative bg-gray-50 rounded-lg overflow-hidden aspect-square flex items-center justify-center p-8">
-                <img 
-                  src={product.image || 'https://via.placeholder.com/800x800?text=No+Image+Available'} 
+              {/* Main Image */}
+              <div className="bg-white rounded-lg overflow-hidden border">
+                <img
+                  src={product.images && product.images[selectedImage] ? product.images[selectedImage].image : DEFAULT_PRODUCT_IMAGE}
                   alt={product.name}
-                  className="max-h-full max-w-full object-contain"
+                  className="w-full h-auto max-h-[500px] object-contain p-4"
+                  onError={handleImageError}
                 />
-                {product.featured && (
-                  <span className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                    Featured
-                  </span>
-                )}
               </div>
+              
+              {/* Thumbnails */}
               <div className="flex space-x-2 overflow-x-auto pb-2">
-                {[1, 2, 3, 4].map((img) => (
-                  <div key={img} className="flex-shrink-0 w-20 h-20 border rounded-md overflow-hidden cursor-pointer hover:border-gray-400">
+                {product.images && product.images.length > 0 ? (
+                  product.images.map((img, index) => (
+                    <div 
+                      key={img.id || index}
+                      className={`flex-shrink-0 w-20 h-20 border rounded-md overflow-hidden cursor-pointer hover:border-gray-400 ${
+                        selectedImage === index ? 'border-black' : 'border-gray-200'
+                      }`}
+                      onClick={() => setSelectedImage(index)}
+                    >
+                      <img 
+                        src={img.image || DEFAULT_PRODUCT_IMAGE}
+                        alt={`${product.name} ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={handleImageError}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex-shrink-0 w-20 h-20 border rounded-md overflow-hidden">
                     <img 
-                      src={product.image || 'https://via.placeholder.com/200?text=Thumb'} 
-                      alt={`${product.name} ${img}`}
+                      src={DEFAULT_PRODUCT_IMAGE}
+                      alt="No images available"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
@@ -421,22 +451,22 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">Category</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.category || 'N/A'}</p>
+                  <h3 className="text-sm font-medium text-gray-500">Size</h3>
+                  <p className="mt-1 text-sm text-gray-900">{product.size || 'N/A'}</p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">Brand</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.brand || 'N/A'}</p>
+                  <h3 className="text-sm font-medium text-gray-500">Flavour</h3>
+                  <p className="mt-1 text-sm text-gray-900">{product.flavour || 'N/A'}</p>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">Weight</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.weight || 'N/A'}</p>
+                  <h3 className="text-sm font-medium text-gray-500"></h3>
+                  <p className="mt-1 text-sm text-gray-900"></p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">SKU</h3>
-                  <p className="mt-1 text-sm text-gray-900">{product.id || 'N/A'}</p>
+                  <h3 className="text-sm font-medium text-gray-500"></h3>
+                  <p className="mt-1 text-sm text-gray-900"></p>
                 </div>
               </div>
             </div>

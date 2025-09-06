@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Plus, Heart } from 'lucide-react';
 
-
+// Default product image in case none is provided
+const DEFAULT_PRODUCT_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgNDAwIDMwMCIgZmlsbD0iI2VlZSI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNlZWUiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzk5OSI+Tm8gSW1hZ2UgQXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
 
 const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
   const formatPrice = (price) => {
@@ -13,6 +14,14 @@ const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
   };
 
   const navigate = useNavigate();
+  
+  // Get the first image from the images array or fall back to the legacy image field
+  const getProductImage = () => {
+    if (product.images && product.images.length > 0) {
+      return product.images[0].image;
+    }
+    return product.image || DEFAULT_PRODUCT_IMAGE;
+  };
 
   const handleCardClick = (e) => {
     // Don't navigate if clicking on the favorite button or add to cart button
@@ -29,9 +38,12 @@ const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
     >
       <div className="relative pt-[100%] overflow-hidden">
         <img
-          src={product.image || 'https://via.placeholder.com/400x300?text=No+Image+Available'}
+          src={getProductImage()}
           alt={product.name}
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          onError={(e) => {
+            e.target.src = DEFAULT_PRODUCT_IMAGE;
+          }}
         />
 
         {!product.in_stock && (
@@ -78,7 +90,7 @@ const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
               id: product.id,
               name: product.name,
               price: product.price,
-              image: product.image,
+              image: getProductImage(),
               quantity: 1
             });
           }}

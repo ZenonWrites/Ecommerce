@@ -29,7 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'id', 'name', 'description', 'price', 'category', 'category_name', 
-            'in_stock', 'featured', 'discount', 'images'
+            'in_stock', 'featured', 'discount', 'images', 'size', 'flavour'
         ]
     
     def get_images(self, obj):
