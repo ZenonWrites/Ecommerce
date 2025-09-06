@@ -314,13 +314,13 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
               <div className="mb-6">
                 <div className="flex items-baseline">
                   <span className="text-3xl font-bold text-gray-900">
-                    {formatPrice(product.price * (product.discount || 0.82))}
+                    {formatPrice(product.price * product.discount )}
                   </span>
                   <span className="ml-2 text-lg text-gray-500 line-through">
                     {formatPrice(product.price)}
                   </span>
                 </div>
-                <p className="text-sm text-green-600 mt-1">Save {formatPrice(product.price * 0.18)}</p>
+                <p className="text-sm text-green-600 mt-1">Save {formatPrice(product.price * (1 - product.discount))}</p>
               </div>
 
               {/* Description */}
@@ -328,21 +328,6 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
                 <p className="text-gray-700 leading-relaxed">
                   {product.description || 'No description available for this product.'}
                 </p>
-              </div>
-
-              {/* Size Selector */}
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-900 mb-2">Size</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
-                    <button
-                      key={size}
-                      className="w-12 h-10 flex items-center justify-center border border-gray-300 rounded-md hover:border-black transition-colors"
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
               </div>
 
               {/* Quantity Selector */}
