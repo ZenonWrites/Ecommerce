@@ -275,12 +275,13 @@ const ProductPage = ({ favorites, toggleFavorite }) => {
             {/* Left Column - Product Images */}
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="bg-white rounded-lg overflow-hidden border">
+              <div className="bg-white rounded-lg overflow-hidden border flex items-center justify-center" style={{ width: '500px', height: '500px' }}>
                 <img
                   src={product.images && product.images[selectedImage] ? product.images[selectedImage].image : DEFAULT_PRODUCT_IMAGE}
                   alt={product.name}
-                  className="w-full h-auto max-h-[500px] object-contain p-4"
+                  className="max-w-full max-h-full object-contain p-4"
                   onError={handleImageError}
+                  style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                 />
               </div>
               
