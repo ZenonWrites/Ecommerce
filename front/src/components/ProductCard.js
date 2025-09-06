@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Plus, Heart } from 'lucide-react';
 
+
+
 const ProductCard = ({ product, onAddToCart, favorites, toggleFavorite }) => {
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', { 

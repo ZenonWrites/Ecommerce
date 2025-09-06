@@ -20,6 +20,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
+    discount = models.FloatField(default=0.82, help_text='Discount multiplier (e.g., 0.82 for 18% off)')
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:

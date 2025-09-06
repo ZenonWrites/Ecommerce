@@ -74,7 +74,7 @@ const Badge = ({ children, className = '', variant = 'default', ...props }) => {
   );
 };
 
-function App() {
+function HomePage({ favorites, toggleFavorite }) {
   const [products, setProducts] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -82,7 +82,6 @@ function App() {
   const [error, setError] = useState(null);
   const [cart, setCart] = useState({ items: [], total: 0, item_count: 0 });
   const [cartOpen, setCartOpen] = useState(false);
-  const [favorites, setFavorites] = useState(new Set());
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [checkingOut, setCheckingOut] = useState(false);
 
@@ -356,29 +355,11 @@ function App() {
     }
   };
 
-  const toggleFavorite = (productId) => {
-    try {
-      const newFavorites = new Set(favorites);
-      if (newFavorites.has(productId)) {
-        newFavorites.delete(productId);
-      } else {
-        newFavorites.add(productId);
-      }
-      setFavorites(newFavorites);
-      return true;
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-      return false;
-    }
-  };
-
   if (isLoading) {
     return (
-      <Router>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-black"></div>
         </div>
-      </Router>
     );
   }
 
@@ -402,7 +383,6 @@ function App() {
   );
 
   return (
-    <Router>
       <div className="min-h-screen flex flex-col bg-white">
         {/* Header */}
         <header className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm" style={{ borderBottomWidth: '1px' }}>
@@ -588,46 +568,9 @@ function App() {
               </div>
               {cart.items.length > 0 && (
                 <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
-                  <div className="totals text-right mb-2">
-                    <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
-                    <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
-                  </div>
-                  
                   <small className="text-xs text-gray-500 block mb-4">
                     Taxes included. Discounts and shipping calculated at checkout.
                   </small>
-
-                  <div className="cart__ctas">
-                    <Button
-                      onClick={proceedToWhatsApp}
-                      disabled={checkingOut}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-                    >
-                      {checkingOut ? (
-                        <div className="flex items-center justify-center">
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                          Processing...
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Check out
-                        </div>
-                      )}
-                    </Button>
-            </div>
-          </div>)} {/* Close cart-scroll-container */}
-          {cart.items.length > 0 && (
-            <div className="cart-drawer__footer p-6 border-t border-gray-200 bg-white">
-              <div className="totals text-right mb-2">
-                <h2 className="text-sm font-medium text-gray-700">Estimated total</h2>
-                <p className="text-lg font-bold">{formatPrice(cart.total)}</p>
-              </div>
-              
-              <small className="text-xs text-gray-500 block mb-4">
-                Taxes included. Discounts and shipping calculated at checkout.
-              </small>
-
               <div className="cart__ctas">
                 <Button
                   onClick={proceedToWhatsApp}
@@ -647,10 +590,9 @@ function App() {
                   )}
                 </Button>
                 <p className="text-xs text-gray-500 text-center mt-2">
-                  You'll be redirected to WhatsApp to complete your order </p>p
+                  You'll be redirected to WhatsApp to complete your order </p>
                 </div>
               </div>)}
-          )
         </div>
       {/* Cart Overlay */}
       {cartOpen && (
@@ -715,8 +657,7 @@ function App() {
         }
       `}</style>
       </div>
-    </Router>
   );
 }
 
-export default App;
+export default HomePage;
