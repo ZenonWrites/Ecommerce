@@ -11,7 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'category', 'image', 'category_name', 'in_stock', 'featured']
+        fields = ['id', 'name', 'description', 'price', 'category', 'image', 'category_name', 'in_stock', 'featured', 'discount']
         
     def to_representation(self, instance):
         # This will ensure the image URL is always absolute
